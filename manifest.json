@@ -1,18 +1,16 @@
 {
-  "short_name": "SportRadar",
+  "short_name": "RadarPro",
   "name": "Sport Radar Pro",
   "icons": [
     {
-      "src": "https://img.icons8.com/?size=192&id=u060U6K9U5L0&format=png&color=00e676",
+      "src": "https://img.icons8.com/?size=96&id=u060U6K9U5L0&format=png&color=00e676",
       "type": "image/png",
-      "sizes": "192x192",
-      "purpose": "any maskable"
+      "sizes": "96x96"
     },
     {
       "src": "https://img.icons8.com/?size=512&id=u060U6K9U5L0&format=png&color=00e676",
       "type": "image/png",
-      "sizes": "512x512",
-      "purpose": "any maskable"
+      "sizes": "512x512"
     }
   ],
   "start_url": "./index.html",
