@@ -2,7 +2,7 @@
 <html lang="sr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sport Radar Pro</title>
     <link rel="manifest" href="./manifest.json">
     <link rel="icon" type="image/png" href="https://img.icons8.com/?size=96&id=u060U6K9U5L0&format=png&color=00e676">
@@ -18,105 +18,130 @@
             --gray-text: #aaaaaa;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Google Sans', Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 15px;
+            padding: 10px;
+            -webkit-tap-highlight-color: transparent;
         }
 
         header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            gap: 10px;
             border-bottom: 2px solid var(--card-bg);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+        }
+
+        @media (min-width: 600px) {
+            header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
         }
 
         h1 {
             margin: 0;
-            font-size: 22px;
+            font-size: 20px;
             color: var(--accent-color);
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .header-controls {
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between;
+            width: 100%;
+            gap: 10px;
         }
 
-        .help-btn {
-            background-color: var(--card-bg);
-            border: 1px solid #333;
-            color: var(--accent-color);
-            font-size: 18px;
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .help-btn:hover {
-            border-color: var(--accent-color);
-            background-color: #252525;
+        @media (min-width: 600px) {
+            .header-controls {
+                width: auto;
+                justify-content: flex-end;
+            }
         }
 
         .api-tracker {
             background-color: var(--card-bg);
-            padding: 10px 15px;
+            padding: 8px 12px;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 11px;
             border: 1px solid #333;
+            flex-grow: 1;
+        }
+
+        @media (min-width: 600px) {
+            .api-tracker {
+                flex-grow: 0;
+            }
         }
 
         .api-status {
-            margin: 3px 0;
+            margin: 2px 0;
             display: flex;
             justify-content: space-between;
-            gap: 15px;
+            gap: 10px;
         }
 
         .status-ok { color: var(--accent-color); font-weight: bold; }
         .status-count { color: var(--warning-color); font-weight: bold; }
 
         .section-title {
-            font-size: 16px;
+            font-size: 14px;
             text-transform: uppercase;
             color: var(--gray-text);
-            margin-bottom: 10px;
+            margin: 15px 0 10px 0;
             border-left: 3px solid var(--accent-color);
             padding-left: 8px;
+            font-weight: bold;
         }
 
         .grid-container {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        @media (min-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .grid-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
         .match-card {
             background-color: var(--card-bg);
             border-radius: 10px;
-            padding: 15px;
+            padding: 12px;
             border: 1px solid #2e2e2e;
-            transition: transform 0.2s;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .match-header {
             display: flex;
             justify-content: space-between;
-            font-size: 12px;
+            font-size: 11px;
             color: var(--gray-text);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .match-teams {
@@ -134,51 +159,47 @@
         .team-info {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            max-width: 80%;
         }
 
         .team-logo {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             object-fit: contain;
         }
 
         .team-name {
             font-weight: bold;
-            font-size: 15px;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .score {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 900;
             color: var(--accent-color);
         }
 
-        .prematch-odds-info {
-            margin-top: 10px;
-            font-size: 11px;
-            color: var(--gray-text);
-            border-top: 1px dashed #333;
-            padding-top: 8px;
-        }
-
         .odds-badge {
             background-color: #2a2a2a;
-            padding: 8px 12px;
+            padding: 8px;
             border-radius: 5px;
-            font-size: 12px;
+            font-size: 11px;
             margin-top: 10px;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
             border-left: 3px solid var(--warning-color);
         }
 
         .card-red {
             background-color: var(--danger-color);
             color: white;
-            font-size: 10px;
-            padding: 2px 5px;
+            font-size: 9px;
+            padding: 1px 4px;
             border-radius: 3px;
             margin-left: 5px;
             font-weight: bold;
@@ -187,143 +208,37 @@
         .alert-box {
             background-color: rgba(255, 23, 68, 0.15);
             border: 1px solid var(--danger-color);
-            padding: 15px;
+            padding: 12px;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: none;
-            font-size: 14px;
-            line-height: 1.5;
+            font-size: 13px;
+            line-height: 1.4;
         }
 
+        /* Sekcija za presek stanja u 12h i 17h */
         .presec-container {
             background-color: #172b1a;
             border: 1px solid var(--accent-color);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 25px;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
             display: none;
         }
 
-        .presec-list {
-            margin-top: 10px;
-            font-size: 14px;
-        }
-
-        .presec-item {
-            padding: 8px 0;
-            border-bottom: 1px solid #254d2b;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-card {
-            background-color: var(--card-bg);
-            border: 1px solid #333;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 85vh;
-            overflow-y: auto;
-            padding: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            transform: translateY(-20px);
-            transition: transform 0.3s ease;
-        }
-
-        .modal-overlay.active .modal-card {
-            transform: translateY(0);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #333;
-            padding-bottom: 12px;
-            margin-bottom: 15px;
-        }
-
-        .modal-title {
-            margin: 0;
-            font-size: 18px;
+        .presec-title {
+            font-size: 13px;
+            font-weight: bold;
             color: var(--accent-color);
             text-transform: uppercase;
+            margin-bottom: 6px;
         }
 
-        .close-btn {
-            background: none;
-            border: none;
-            color: var(--gray-text);
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .close-btn:hover {
-            color: var(--danger-color);
-        }
-
-        .help-section {
-            margin-bottom: 18px;
-        }
-
-        .help-section h4 {
-            color: var(--warning-color);
-            margin: 0 0 8px 0;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .help-section p, .help-section li {
-            font-size: 13px;
-            color: #dddddd;
-            line-height: 1.6;
-            margin: 0 0 8px 0;
-        }
-
-        .help-section ul {
-            padding-left: 20px;
+        .presec-list {
+            font-size: 12px;
             margin: 0;
-        }
-
-        .close-modal-footer-btn {
-            width: 100%;
-            padding: 10px;
-            background-color: var(--accent-color);
-            color: #000;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-            text-transform: uppercase;
-            margin-top: 10px;
-        }
-
-        .close-modal-footer-btn:hover {
-            background-color: #00b35c;
+            padding-left: 15px;
+            color: #e0e0e0;
         }
     </style>
 </head>
@@ -332,14 +247,12 @@
     <header>
         <div>
             <h1>Sport Radar Pro</h1>
-            <div style="font-size: 11px; color: var(--gray-text)">Skeniranje na 30s | Crveni kartoni | Skok kvote uživo</div>
+            <div style="font-size: 10px; color: var(--gray-text)">Skeniranje na 3 min | Favoriti i Crveni Kartoni</div>
         </div>
         <div class="header-controls">
-            <button class="help-btn" onclick="toggleHelpModal(true)" title="Uputstvo za upotrebu">❓</button>
-            
             <div class="api-tracker">
                 <div class="api-status">
-                    <span>Skeniranje:</span>
+                    <span>Skeniranje (Uživo):</span>
                     <span id="fd-rate" class="status-ok">AKTIVNO</span>
                 </div>
                 <div class="api-status">
@@ -350,78 +263,35 @@
         </div>
     </header>
 
-    <div id="help-modal" class="modal-overlay" onclick="toggleHelpModal(false)">
-        <div class="modal-card" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <h3 class="modal-title">📖 Uputstvo za upotrebu</h3>
-                <button class="close-btn" onclick="toggleHelpModal(false)">&times;</button>
-            </div>
-            
-            <div class="help-section">
-                <h4>🎯 Šta je Sport Radar Pro?</h4>
-                <p>Ovo je napredni analitički sistem koji radi u realnom vremenu (na svakih 30 sekundi). Njegov cilj je da uoči kritične promene na utakmicama uživo, uporedi trenutne okolnosti sa početnim (pre-match) kvotama i signalizira profitabilne prilike.</p>
-            </div>
-
-            <div class="help-section">
-                <h4>⚡ Tri glavna okidača (Triggers)</h4>
-                <ul>
-                    <li><strong>Crveni karton:</strong> Kada bilo koji tim dobije crveni karton, sistem momentalno povlači uživo kvote i aktivira glasan zvučni alarm.</li>
-                    <li><strong>Favorit gubi:</strong> Ako izraziti favorit (pre-match kvota ispod 1.75, označen zvezdimom ⭐) gubi, radar beleži promenu i nudi analizu skoka uživo kvote.</li>
-                    <li><strong>Kasni pritisak (75. min):</strong> Ako je meč gde postoji favorit i dalje 0:0 u 75. minutu, sistem alarmira da je vreme za napad na golove.</li>
-                </ul>
-            </div>
-
-            <div class="help-section">
-                <h4>📊 Presek kota & Statistika (12h / 17h)</h4>
-                <p>U tačno 12:00h i 17:00h svakog dana, sistem automatski pravi presek svih nadolazećih mečeva i izdvaja one sa jasnim favoritima. Pored toga, generiše direktan link ka detaljnoj analizi kornera i kartona na TotalCorner-u za te timove.</p>
-            </div>
-
-            <div class="help-section">
-                <h4>🛠️ Tehničke napomene</h4>
-                <ul>
-                    <li>Aplikacija je u potpunosti <strong>PWA kompatibilna</strong>. Možeš je instalirati na telefon ili računar i raditi bez kočenja.</li>
-                    <li>Sistem vodi računa o tvojim API kreditima na The Odds API (prikazano u gornjem desnom uglu) i poziva ih isključivo kada se detektuje ključna promena, štedeći resurse.</li>
-                </ul>
-            </div>
-
-            <button class="close-modal-footer-btn" onclick="toggleHelpModal(false)">Zatvori</button>
-        </div>
+    <div id="presec-box" class="presec-container">
+        <div class="presec-title" id="presec-time-title">Presek stanja</div>
+        <ul class="presec-list" id="presec-items"></ul>
     </div>
 
     <div id="live-alert" class="alert-box"></div>
 
-    <div id="presec-panel" class="presec-container">
-        <h3 style="margin: 0; color: var(--accent-color); display: flex; justify-content: space-between;">
-            <span>📊 PRESEK KOTA & STATISTIKA (12h / 17h)</span>
-            <span id="presec-vreme" style="font-size: 13px; color: var(--warning-color);"></span>
-        </h3>
-        <div id="presec-content" class="presec-list"></div>
-    </div>
-
-    <div class="section-title">Utakmice uživo (Skeniranje na 30s)</div>
+    <div class="section-title">Utakmice uživo (Skeniranje na 3 min)</div>
     <div id="live-matches-grid" class="grid-container">
-        <div style="color: var(--gray-text); text-align: center; padding: 20px;">Učitavanje utakmica...</div>
+        <div style="color: var(--gray-text); text-align: center; padding: 20px; font-size: 13px;">Učitavanje utakmica sa servera...</div>
     </div>
 
     <script>
-        const ODDS_API_KEY = '0fe3d301aa11cda024d49acef8511f22';
+        // ================= AUTOMATSKA ROTACIJA TVOJA 2 KLJUČA =================
+        const API_FOOTBALL_KEYS = [
+            '8464fe0b2c02cc648155fd7aaa8a5806', // Tvoj 1. ključ
+            'f1cce1e4be71307c45a7a206e4a16495'  // Tvoj 2. ključ
+        ];
         
+        let currentKeyIndex = parseInt(localStorage.getItem('active_key_index')) || 0;
+        const ODDS_API_KEY = '0fe3d301aa11cda024d49acef8511f22';
+        // =====================================================================
+
         let remainingOddsCredits = parseInt(localStorage.getItem('odds_credits')) || 500;
         document.getElementById('odds-count').innerText = `${remainingOddsCredits} / 500 preostalo`;
 
         let previousMatchesState = {};
         let preMatchOddsCache = JSON.parse(localStorage.getItem('pre_match_odds_cache')) || {};
         let lastCacheTime = parseInt(localStorage.getItem('last_cache_time')) || 0;
-        let apiErrorCount = 0; // Brojač grešaka za zaštitu kredita
-
-        function toggleHelpModal(prikazi) {
-            const modal = document.getElementById('help-modal');
-            if (prikazi) {
-                modal.classList.add('active');
-            } else {
-                modal.classList.remove('active');
-            }
-        }
 
         function updateOddsCredits(used) {
             remainingOddsCredits = Math.max(0, remainingOddsCredits - used);
@@ -436,23 +306,16 @@
         }
 
         async function cachePreMatchOdds(force = false) {
-            // Ako imamo registrovanu grešku sa utakmicama, blokiramo povlačenje kvota da se ne troše krediti uzalud
-            if (apiErrorCount > 0 && !force) {
-                console.log("Povlačenje kvota blokirano jer utakmice ne rade.");
-                return;
-            }
-
             const sada = Date.now();
             const cetiriSata = 4 * 60 * 60 * 1000;
 
             if (!force && lastCacheTime && (sada - lastCacheTime < cetiriSata) && Object.keys(preMatchOddsCache).length > 0) {
-                console.log("Korišćenje sačuvanih kvota iz lokalne memorije.");
                 return;
             }
 
             if (remainingOddsCredits < 1) return;
             try {
-                const response = await fetch(`https://api.the-odds-api.com/v3/odds/?apiKey=${ODDS_API_KEY}&sport=soccer&region=eu&mkt=h2h,totals`);
+                const response = await fetch(`https://api.the-odds-api.com/v3/odds/?apiKey=${ODDS_API_KEY}&sport=soccer&region=eu&mkt=h2h`);
                 const data = await response.json();
                 
                 updateOddsCredits(1);
@@ -460,7 +323,7 @@
                 if (data.success && data.data) {
                     data.data.forEach(match => {
                         const key = `${normalizeTeamName(match.home_team)}_${normalizeTeamName(match.away_team)}`;
-                        const bookmaker = match.sites.find(s => s.site_key === 'pinnacle') || match.sites[0];
+                        const bookmaker = match.sites[0];
                         if (bookmaker) {
                             preMatchOddsCache[key] = {
                                 home: bookmaker.odds.h2h ? bookmaker.odds.h2h[0] : null,
@@ -472,65 +335,14 @@
                     });
                     localStorage.setItem('pre_match_odds_cache', JSON.stringify(preMatchOddsCache));
                     localStorage.setItem('last_cache_time', sada.toString());
-                    lastCacheTime = sada;
                 }
             } catch (e) {
                 console.error("Greška pri keširanju kvota", e);
             }
         }
 
-        function checkAndTriggerPresec() {
-            const sada = new Date();
-            const sati = sada.getHours();
-            const minuti = sada.getMinutes();
-
-            if ((sati === 12 || sati === 17) && minuti === 0) {
-                pokreniPresec(sati + ':00h');
-            }
-        }
-
-        async function pokreniPresec(vreme) {
-            await cachePreMatchOdds(true); 
-            
-            document.getElementById('presec-panel').style.display = 'block';
-            document.getElementById('presec-vreme').innerText = vreme;
-            const content = document.getElementById('presec-content');
-            content.innerHTML = '';
-
-            let matchesFound = false;
-
-            for (const [kljuc, kvote] of Object.entries(preMatchOddsCache)) {
-                const timovi = kljuc.split('_');
-                const t1 = timovi[0].toUpperCase();
-                const t2 = timovi[1].toUpperCase();
-
-                if (kvote.home && (kvote.home < 1.75 || kvote.away < 1.75)) {
-                    matchesFound = true;
-                    const ulogaFavorita = kvote.home < 1.75 ? `${t1} (Domaćin)` : `${t2} (Gost)`;
-                    const kvotaFav = kvote.home < 1.75 ? kvote.home : kvote.away;
-                    const cornerLink = `https://www.totalcorner.com/match/search/${timovi[0]}`;
-
-                    content.innerHTML += `
-                        <div class="presec-item">
-                            <div>⚽ <strong>${t1} - ${t2}</strong></div>
-                            <div style="font-size: 12px; color: var(--warning-color);">
-                                Favorit: ${ulogaFavorita} (Kvota: ${kvotaFav})
-                            </div>
-                            <div style="margin-top: 5px; font-size: 11px;">
-                                <a href="${cornerLink}" target="_blank" style="color: var(--accent-color); text-decoration: none;">📊 Analiza kornera i kartona za ove timove ➡️</a>
-                            </div>
-                        </div>
-                    `;
-                }
-            }
-
-            if (!matchesFound) {
-                content.innerHTML = 'Nema evidentiranih mečeva sa izrazitim favoritima u ovom preseku.';
-            }
-        }
-
         async function proveriKvoteUzivoZaMec(homeTeam, awayTeam) {
-            if (remainingOddsCredits < 1 || apiErrorCount > 0) return null;
+            if (remainingOddsCredits < 1) return null;
             try {
                 const response = await fetch(`https://api.the-odds-api.com/v3/odds/?apiKey=${ODDS_API_KEY}&sport=soccer&region=eu&mkt=h2h`);
                 const data = await response.json();
@@ -563,72 +375,126 @@
             alertBox.style.display = 'block';
             alertBox.innerHTML = `<strong>🚨 ${naslov}</strong><br>${poruka}`;
             playAlertSound();
-            setTimeout(() => { alertBox.style.display = 'none'; }, 20000);
+            setTimeout(() => { alertBox.style.display = 'none'; }, 25000);
         }
 
         function playAlertSound() {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-            oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
-            gainNode.gain.setValueAtTime(0.12, audioCtx.currentTime);
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-            oscillator.start();
-            oscillator.stop(audioCtx.currentTime + 0.8);
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
+                gainNode.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.8);
+            } catch (e) {
+                console.log("Korisnik mora kliknuti na stranicu jednom da bi se zvuk aktivirao.");
+            }
         }
 
-        // NOVI, SUPER-STABILAN I DIREKTAN IZVOR UTROŠENIH UTAKMICA (BEZ CORS BLOKADE)
-        async function fetchLiveMatches() {
-            try {
-                // Stabilan, javno otvoren live feed koji nikada ne blokira CORS pozive iz browsera
-                const response = await fetch('https://raw.githubusercontent.com/openfootball/world-cup.json/master/2018/worldcup.json');
-                const backupData = await response.json();
+        // FUNKCIJA ZA PRESEK STANJA U 12:00h i 17:00h
+        function proveriPresekStanja(liveMatches) {
+            const sada = new Date();
+            const sati = sada.getHours();
+            const minuti = sada.getMinutes();
+            
+            if ((sati === 12 || sati === 17) && minuti < 5) {
+                const presecBox = document.getElementById('presec-box');
+                const presecTimeTitle = document.getElementById('presec-time-title');
+                const presecItems = document.getElementById('presec-items');
                 
-                // Ukoliko nemamo trenutno aktivnih live kupova, simuliramo nekoliko mečeva za testiranje i stalni rad
+                presecTimeTitle.innerText = `📊 AUTOMATSKI PRESEK STANJA U ${sati}:00h`;
+                presecItems.innerHTML = '';
+                
+                let nasaoUtakmice = false;
+                
+                liveMatches.forEach(item => {
+                    const teams = item.teams;
+                    const goals = item.goals;
+                    const minut = item.fixture.status.elapsed ?? 0;
+                    
+                    const homeTeam = teams.home.name;
+                    const awayTeam = teams.away.name;
+                    const homeScore = goals.home ?? 0;
+                    const awayScore = goals.away ?? 0;
+                    
+                    const cacheKey = `${normalizeTeamName(homeTeam)}_${normalizeTeamName(awayTeam)}`;
+                    const preMatchData = preMatchOddsCache[cacheKey];
+                    
+                    let favoritInfo = '';
+                    if (preMatchData) {
+                        if (preMatchData.home && preMatchData.home < 1.75) {
+                            favoritInfo = ` (Favorit: ${homeTeam} ⭐)`;
+                        } else if (preMatchData.away && preMatchData.away < 1.75) {
+                            favoritInfo = ` (Favorit: ${awayTeam} ⭐)`;
+                        }
+                    }
+                    
+                    nasaoUtakmice = true;
+                    presecItems.innerHTML += `<li>[${minut}'] <strong>${homeTeam} ${homeScore}:${awayScore} ${awayTeam}</strong>${favoritInfo}</li>`;
+                });
+                
+                if (!nasaoUtakmice) {
+                    presecItems.innerHTML = '<li>Trenutno nema aktivnih utakmica na terenu u ovom preseku.</li>';
+                }
+                
+                presecBox.style.display = 'block';
+            }
+        }
+
+        async function fetchLiveMatches() {
+            const aktivniKljuc = API_FOOTBALL_KEYS[currentKeyIndex];
+
+            try {
+                const response = await fetch('https://v3.football.api-sports.io/fixtures?live=all', {
+                    method: "GET",
+                    headers: {
+                        "x-apisports-key": aktivniKljuc
+                    }
+                });
+
+                const resData = await response.json();
+
+                if (resData.errors && (resData.errors.rateLimit || resData.errors.requests || resData.errors.token)) {
+                    console.warn(`Ključ na indeksu ${currentKeyIndex} je limitiran. Rotiram...`);
+                    currentKeyIndex = (currentKeyIndex + 1) % API_FOOTBALL_KEYS.length;
+                    localStorage.setItem('active_key_index', currentKeyIndex);
+                    fetchLiveMatches();
+                    return;
+                }
+
+                const matches = resData.response || [];
                 const grid = document.getElementById('live-matches-grid');
                 grid.innerHTML = '';
-                apiErrorCount = 0; // Resetujemo grešku ako je sve prošlo kako treba
 
-                // Primer dinamičkog generisanja aktivnih parova za analizu iz baze
-                const liveDemoMatches = [
-                    {
-                        competition: "Engleska Premier Liga",
-                        homeTeam: "Arsenal",
-                        awayTeam: "Chelsea",
-                        homeLogo: "https://img.icons8.com/?size=48&id=21443&format=png",
-                        awayLogo: "https://img.icons8.com/?size=48&id=18436&format=png",
-                        homeScore: 0,
-                        awayScore: 0,
-                        minute: 34,
-                        redCards: { home: 0, away: 0 }
-                    },
-                    {
-                        competition: "Španska La Liga",
-                        homeTeam: "Real Madrid",
-                        awayTeam: "Valencia",
-                        homeLogo: "https://img.icons8.com/?size=48&id=18448&format=png",
-                        awayLogo: "https://img.icons8.com/?size=48&id=18151&format=png",
-                        homeScore: 1,
-                        awayScore: 2,
-                        minute: 78,
-                        redCards: { home: 1, away: 0 }
-                    }
-                ];
+                proveriPresekStanja(matches);
 
-                for (const match of liveDemoMatches) {
-                    const matchId = match.homeTeam + "_" + match.awayTeam;
-                    const homeTeam = match.homeTeam;
-                    const awayTeam = match.awayTeam;
-                    const homeLogo = match.homeLogo;
-                    const awayLogo = match.awayLogo;
-                    const homeScore = match.homeScore;
-                    const awayScore = match.awayScore;
-                    const minut = match.minute;
+                if (matches.length === 0) {
+                    grid.innerHTML = '<div style="color: var(--gray-text); text-align: center; padding: 20px; font-size: 13px;">Trenutno nema aktivnih utakmica uživo na svetu.</div>';
+                    return;
+                }
 
-                    let homeRedCards = match.redCards.home;
-                    let awayRedCards = match.redCards.away;
+                for (const item of matches) {
+                    const fixture = item.fixture;
+                    const league = item.league;
+                    const teams = item.teams;
+                    const goals = item.goals;
+                    const events = item.events || [];
+
+                    const homeTeam = teams.home.name;
+                    const awayTeam = teams.away.name;
+                    const homeLogo = teams.home.logo;
+                    const awayLogo = teams.away.logo;
+                    const homeScore = goals.home ?? 0;
+                    const awayScore = goals.away ?? 0;
+                    const minut = fixture.status.elapsed ?? 0;
+                    const matchId = fixture.id;
+
+                    let homeRedCards = events.filter(e => e.type === "Card" && e.detail === "Red Card" && e.team.id === teams.home.id).length;
+                    let awayRedCards = events.filter(e => e.type === "Card" && e.detail === "Red Card" && e.team.id === teams.away.id).length;
 
                     const cacheKey = `${normalizeTeamName(homeTeam)}_${normalizeTeamName(awayTeam)}`;
                     const preMatchData = preMatchOddsCache[cacheKey];
@@ -637,11 +503,7 @@
                     let isAwayFavorit = false;
                     let pocetnaKvotaFavorita = null;
 
-                    // Test podaci za demonstraciju ako nema keša
-                    if (!preMatchData) {
-                        if (homeTeam === "Real Madrid") { isHomeFavorit = true; pocetnaKvotaFavorita = 1.45; }
-                        if (homeTeam === "Arsenal") { isHomeFavorit = true; pocetnaKvotaFavorita = 1.60; }
-                    } else {
+                    if (preMatchData) {
                         if (preMatchData.home && preMatchData.home < 1.75) {
                             isHomeFavorit = true;
                             pocetnaKvotaFavorita = preMatchData.home;
@@ -660,7 +522,7 @@
                         if (staroStanje.homeRedCards < homeRedCards || staroStanje.awayRedCards < awayRedCards) {
                             triggerKvote = true;
                             naslovTrigera = "CRVENI KARTON!";
-                            razlogTrigera = `Pao je crveni karton na meču ${homeTeam} - ${awayTeam}! Odmah povlačim nove uživo kvote.`;
+                            razlogTrigera = `Pao je crveni karton na meču ${homeTeam} - ${awayTeam}! Odmah povlačim uživo kvote.`;
                         }
 
                         if (staroStanje.homeScore !== homeScore || staroStanje.awayScore !== awayScore) {
@@ -680,7 +542,7 @@
                                 triggerKvote = true;
                                 naslovTrigera = "KASNI PRITISAK (75. MIN)";
                                 razlogTrigera = `Meč ${homeTeam} - ${awayTeam} je i dalje na 0:0 u 75. minutu. Favorit traži gol!`;
-                                match.trig75 = true;
+                                item.trig75 = true;
                             }
                         }
                     }
@@ -700,10 +562,10 @@
                             let tekstSkoka = '';
                             if (isHomeFavorit) {
                                 const skokProcenat = (((uzivoKvote.home - pocetnaKvotaFavorita) / pocetnaKvotaFavorita) * 100).toFixed(0);
-                                tekstSkoka = `<br>📈 Kvota na pobedu ${homeTeam} skočila sa <strong>${pocetnaKvotaFavorita}</strong> na <strong>${uzivoKvote.home}</strong> (Skok: +${skokProcenat}%)`;
+                                tekstSkoka = `<br>📈 Kvota na ${homeTeam} skočila sa ${pocetnaKvotaFavorita} na ${uzivoKvote.home} (+${skokProcenat}%)`;
                             } else if (isAwayFavorit) {
                                 const skokProcenat = (((uzivoKvote.away - pocetnaKvotaFavorita) / pocetnaKvotaFavorita) * 100).toFixed(0);
-                                tekstSkoka = `<br>📈 Kvota na pobedu ${awayTeam} skočila sa <strong>${pocetnaKvotaFavorita}</strong> na <strong>${uzivoKvote.away}</strong> (Skok: +${skokProcenat}%)`;
+                                tekstSkoka = `<br>📈 Kvota na ${awayTeam} skočila sa ${pocetnaKvotaFavorita} na ${uzivoKvote.away} (+${skokProcenat}%)`;
                             }
 
                             prikaziLiveUzbinu(naslovTrigera, razlogTrigera + tekstSkoka);
@@ -718,14 +580,10 @@
                         }
                     }
 
-                    const prikazPreMatchKvota = pocetnaKvotaFavorita ? 
-                        `Početni favorit kvota: <strong>${pocetnaKvotaFavorita}</strong>` : 
-                        `Pre meča: Podaci nisu učitani`;
-
                     grid.innerHTML += `
                         <div class="match-card">
                             <div class="match-header">
-                                <span>🏆 ${match.competition}</span>
+                                <span>🏆 ${league.name} (${league.country})</span>
                                 <span style="color: var(--accent-color); font-weight: bold;">⏱️ ${minut}'</span>
                             </div>
                             <div class="match-teams">
@@ -746,9 +604,6 @@
                                     <span class="score">${awayScore}</span>
                                 </div>
                             </div>
-                            <div class="prematch-odds-info">
-                                ${prikazPreMatchKvota}
-                            </div>
                             ${prikazKvotaUzivo}
                         </div>
                     `;
@@ -756,10 +611,9 @@
 
             } catch (error) {
                 console.error("Greška pri povlačenju utakmica uživo:", error);
-                apiErrorCount++; // Povećavamo brojač grešaka i obustavljamo rad API-ja za kvote dok se mreža ne sredi
                 document.getElementById('live-matches-grid').innerHTML = 
-                    `<div style="color: var(--danger-color); text-align: center; padding: 20px;">
-                        Došlo je do greške pri učitavanju utakmica. Sistem će pokušati ponovo za 30s.
+                    `<div style="color: var(--danger-color); text-align: center; padding: 20px; font-size: 13px;">
+                        Privremena greška u radu sa API-jem. Sistem pokušava ponovo...
                      </div>`;
             }
         }
@@ -767,8 +621,8 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Service Worker uspešno registrovan u Sport Radar Pro!', reg.scope))
-                    .catch(err => console.log('Greška pri registraciji Service Worker-a:', err));
+                    .then(reg => console.log('SW registrovan', reg.scope))
+                    .catch(err => console.log('SW greška', err));
             });
         }
 
@@ -776,8 +630,8 @@
             fetchLiveMatches();
         });
 
-        setInterval(fetchLiveMatches, 30000);
-        setInterval(checkAndTriggerPresec, 60000);
+        // Skeniranje utakmica postavljeno na 3 minuta (180000ms)
+        setInterval(fetchLiveMatches, 180000);
         setInterval(cachePreMatchOdds, 14400000);
 
     </script>
