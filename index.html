@@ -217,7 +217,6 @@
             gap: 5px;
         }
 
-        /* Modal (Uputstvo) Stilovi */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -407,14 +406,17 @@
     <script>
         const FOOTBALL_DATA_KEY = '0e53e119bf214a849aff5d0f8bbb4a24';
         const ODDS_API_KEY = '0fe3d301aa11cda024d49acef8511f22';
+        
+        // CORS proxy koji rešava problem sa učitavanjem utakmica na GitHub Pages
+        const CORS_PROXY = "https://corsproxy.io/?";
 
         let remainingOddsCredits = parseInt(localStorage.getItem('odds_credits')) || 500;
         document.getElementById('odds-count').innerText = `${remainingOddsCredits} / 500 preostalo`;
 
         let previousMatchesState = {};
         let preMatchOddsCache = JSON.parse(localStorage.getItem('pre_match_odds_cache')) || {};
+        let lastCacheTime = parseInt(localStorage.getItem('last_cache_time')) || 0;
 
-        // Funkcija za prikazivanje/skrivanje uputstva
         function toggleHelpModal(prikazi) {
             const modal = document.getElementById('help-modal');
             if (prikazi) {
@@ -436,7 +438,16 @@
                 .trim();
         }
 
-        async function cachePreMatchOdds() {
+        // SPREČAVANJE PREKOMERNE POTROŠNJE KREDITA NA REFRESH (Samo jednom u 4 sata povlači nove kvote)
+        async function cachePreMatchOdds(force = false) {
+            const sada = Date.now();
+            const cetiriSata = 4 * 60 * 60 * 1000;
+
+            if (!force && lastCacheTime && (sada - lastCacheTime < cetiriSata) && Object.keys(preMatchOddsCache).length > 0) {
+                console.log("Korišćenje sačuvanih kvota iz lokalne memorije. Kredit sačuvan!");
+                return;
+            }
+
             if (remainingOddsCredits < 1) return;
             try {
                 const response = await fetch(`https://api.the-odds-api.com/v3/odds/?apiKey=${ODDS_API_KEY}&sport=soccer&region=eu&mkt=h2h,totals`);
@@ -458,6 +469,8 @@
                         }
                     });
                     localStorage.setItem('pre_match_odds_cache', JSON.stringify(preMatchOddsCache));
+                    localStorage.setItem('last_cache_time', sada.toString());
+                    lastCacheTime = sada;
                 }
             } catch (e) {
                 console.error("Greška pri keširanju kvota", e);
@@ -475,7 +488,7 @@
         }
 
         async function pokreniPresec(vreme) {
-            await cachePreMatchOdds();
+            await cachePreMatchOdds(true); // Za presek forsiramo novo povlačenje kvota
             
             document.getElementById('presec-panel').style.display = 'block';
             document.getElementById('presec-vreme').innerText = vreme;
@@ -566,7 +579,8 @@
 
         async function fetchLiveMatches() {
             try {
-                const response = await fetch('https://api.football-data.org/v4/matches?status=LIVE', {
+                // Pozivanje preko CORS proksija kako pretraživač ne bi blokirao sajt na GitHub Pages
+                const response = await fetch(`${CORS_PROXY}https://api.football-data.org/v4/matches?status=LIVE`, {
                     headers: { 'X-Auth-Token': FOOTBALL_DATA_KEY }
                 });
                 
@@ -719,7 +733,11 @@
                 }
 
             } catch (error) {
-                console.error(error);
+                console.error("Greška pri povlačenju utakmica uživo:", error);
+                document.getElementById('live-matches-grid').innerHTML = 
+                    `<div style="color: var(--danger-color); text-align: center; padding: 20px;">
+                        Došlo je do greške pri učitavanju utakmica. Sistem će pokušati ponovo za 30s.
+                     </div>`;
             }
         }
 
@@ -731,13 +749,15 @@
             });
         }
 
+        // PRVO POKRETANJE SADA RADI PROVERU KEŠA
         cachePreMatchOdds().then(() => {
             fetchLiveMatches();
         });
 
         setInterval(fetchLiveMatches, 30000);
         setInterval(checkAndTriggerPresec, 60000);
-        setInterval(cachePreMatchOdds, 3600000);
+        // Automatsko osvežavanje keša kvota na svaka 4 sata (umesto na sat vremena) da dodatno sačuvamo kredite
+        setInterval(cachePreMatchOdds, 14400000);
 
     </script>
 </body>
